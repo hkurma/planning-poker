@@ -1,0 +1,130 @@
+<div class="w-full max-w-lg animate-fadeIn">
+  <!-- Logo -->
+  <app-logo size="full" />
+
+  <!-- Card -->
+  <app-card>
+    <!-- Step 1: Name Input -->
+    <div class="mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div
+          class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-sm font-bold text-white shadow-lg"
+        >
+          1
+        </div>
+        <div>
+          <h3 class="text-slate-800 dark:text-white font-semibold">What's your name?</h3>
+          <p class="text-slate-500 dark:text-white/40 text-xs">Required to join or create a room</p>
+        </div>
+      </div>
+      <app-input [(value)]="playerName" placeholder="Enter your name..." size="lg" />
+    </div>
+
+    <!-- Step 2: Choose Action -->
+    <div
+      class="relative"
+      [class.opacity-40]="!playerName().trim()"
+      [class.pointer-events-none]="!playerName().trim()"
+    >
+      <div class="flex items-center gap-3 mb-5">
+        <div
+          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-lg transition-all bg-black/10 dark:bg-white/10 text-slate-400 dark:text-white/40"
+          [class.bg-gradient-to-br]="playerName().trim()"
+          [class.from-cyan-500]="playerName().trim()"
+          [class.to-violet-500]="playerName().trim()"
+          [class.text-white]="playerName().trim()"
+        >
+          2
+        </div>
+        <div>
+          <h3 class="text-slate-800 dark:text-white font-semibold">Choose an option</h3>
+          <p class="text-slate-500 dark:text-white/40 text-xs">
+            Start a new session or join existing one
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Create Room Option -->
+        <div class="relative">
+          <button
+            (click)="onCreateRoom()"
+            [disabled]="!playerName().trim() || isLoading()"
+            class="w-full h-full relative group/btn overflow-hidden rounded-2xl p-[2px] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-600 animate-gradient"
+            ></div>
+            <div
+              class="relative bg-white dark:bg-[#0a0a0f] hover:bg-transparent p-6 rounded-2xl transition-all duration-300 h-full flex flex-col items-center justify-center gap-3"
+            >
+              <div
+                class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 flex items-center justify-center"
+              >
+                <app-icon-plus class="w-6 h-6 text-violet-500 dark:text-violet-400" />
+              </div>
+              <div class="text-center">
+                <span
+                  class="block text-lg font-bold text-slate-800 dark:text-white group-hover/btn:text-white"
+                  >Create Room</span
+                >
+                <span
+                  class="text-xs text-slate-500 dark:text-white/50 group-hover/btn:text-white/70"
+                  >Start a new session</span
+                >
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Join Room Option -->
+        <div class="relative">
+          <div
+            class="h-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl p-6 transition-all hover:border-cyan-500/30"
+          >
+            <div class="flex flex-col items-center justify-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-violet-500/20 flex items-center justify-center"
+              >
+                <app-icon-arrow-right class="w-6 h-6 text-cyan-500 dark:text-cyan-400" />
+              </div>
+              <div class="text-center">
+                <span class="block text-lg font-bold text-slate-800 dark:text-white"
+                  >Join Room</span
+                >
+                <span class="text-xs text-slate-500 dark:text-white/50">Enter a room code</span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <app-input
+                [(value)]="roomCode"
+                placeholder="Room code..."
+                size="sm"
+                variant="cyan"
+                [monospace]="true"
+                [centered]="true"
+              />
+            </div>
+            <app-button
+              variant="outline"
+              size="md"
+              [fullWidth]="true"
+              [disabled]="!playerName().trim() || !roomCode().trim() || isLoading()"
+              (clicked)="onJoinRoom()"
+            >
+              Join
+            </app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (room.connectionError()) {
+    <div
+      class="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-center text-sm"
+    >
+      {{ room.connectionError() }}
+    </div>
+    }
+  </app-card>
+</div>

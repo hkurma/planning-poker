@@ -1,12 +1,23 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ThemeService } from './services/theme.service';
+import { BackgroundComponent, ThemeToggleComponent } from './components';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, BackgroundComponent, ThemeToggleComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styles: `
+    :host {
+      display: block;
+      min-height: 100vh;
+    }
+  `,
+  host: {
+    '[class.dark]': 'themeService.isDarkMode()',
+  },
 })
 export class App {
-  protected readonly title = signal('planning-poker');
+  protected readonly themeService = inject(ThemeService);
 }

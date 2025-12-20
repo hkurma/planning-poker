@@ -1,0 +1,16 @@
+<div class="flex flex-wrap justify-center gap-4">
+  @if (isHost()) {
+    @if (!isRevealed()) {
+      <app-button variant="primary" size="lg" [disabled]="!allVoted()" (clicked)="reveal.emit()">
+        <app-icon-eye class="w-5 h-5" />
+        REVEAL VOTES
+      </app-button>
+    } @else {
+      <app-button variant="secondary" size="lg" (clicked)="reset.emit()">
+        <app-icon-refresh class="w-5 h-5" />
+        NEW ROUND
+      </app-button>
+    }
+  }
+</div>
+

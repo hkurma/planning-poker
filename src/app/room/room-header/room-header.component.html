@@ -1,0 +1,32 @@
+<div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+  <div class="flex items-center gap-4">
+    <div>
+      <app-logo size="compact" />
+      <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+        {{ playerCount() }} players connected
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <!-- Leave Room -->
+    <app-button variant="ghost" size="md" (clicked)="leaveRoom.emit()">
+      <app-icon-logout class="w-4 h-4" />
+      Leave
+    </app-button>
+
+    <!-- Room Code -->
+    <button
+      (click)="copyRoomCode.emit()"
+      class="flex items-center gap-3 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-all cursor-pointer"
+    >
+      <div class="text-left">
+        <span class="text-xs text-slate-500 dark:text-slate-400 block mb-0.5">ROOM CODE</span>
+        <span class="font-mono text-cyan-600 dark:text-cyan-400 tracking-wider text-sm">{{ roomId() }}</span>
+      </div>
+      <app-icon-copy class="w-4 h-4 text-slate-400 dark:text-slate-500" />
+    </button>
+  </div>
+</div>
+

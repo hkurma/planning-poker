@@ -1,0 +1,48 @@
+@if (showJoinModal()) {
+<app-join-modal
+  [roomId]="route.snapshot.paramMap.get('roomId')!"
+  [isLoading]="isLoading()"
+  (cancelled)="onCancelJoin()"
+  (joined)="onJoinRoom($event)"
+/>
+} @if (room.isConnected()) {
+<div class="w-full max-w-6xl animate-fadeIn">
+  <!-- Header -->
+  <app-room-header
+    [roomId]="room.roomId()!"
+    [playerCount]="room.players().length"
+    (leaveRoom)="onLeaveRoom()"
+    (copyRoomCode)="onCopyRoomCode()"
+  />
+
+  <!-- Players Area -->
+  <app-players-area
+    [players]="room.players()"
+    [currentPlayerId]="room.currentPlayer()?.id ?? null"
+    [isRevealed]="room.isRevealed()"
+  />
+
+  <!-- Voting Cards -->
+  <app-voting-cards
+    [selectedCard]="room.currentPlayer()?.vote ?? null"
+    [disabled]="room.isRevealed()"
+    [consensusState]="consensusState()"
+    (cardSelected)="onVote($event)"
+  />
+
+  <!-- Action Buttons -->
+  <app-room-actions
+    [isHost]="room.isHost()"
+    [isRevealed]="room.isRevealed()"
+    [allVoted]="room.allVoted()"
+    (reveal)="onReveal()"
+    (reset)="onReset()"
+  />
+</div>
+} @if (showCopiedToast()) {
+<div
+  class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-emerald-500 rounded-full text-white font-medium shadow-lg animate-fadeIn z-50"
+>
+  ✓ Room code copied!
+</div>
+}
