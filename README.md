@@ -76,7 +76,7 @@ Open your browser and navigate to `http://localhost:4200/`
 2. Paste the room code shared with you
 3. Click **Join Room**
 
-Alternatively, you can join directly via a shared link (e.g., `https://yourapp.com/room/happy-blue-dog`).
+Alternatively, you can join directly via a shared link (e.g., `https://yourapp.com/happy-blue-dog`).
 
 ### During Estimation
 
@@ -155,7 +155,7 @@ src/
 │   │   └── ui/              # Button, Card, Input primitives
 │   ├── landing/             # Landing page (/)
 │   ├── lobby/               # Create/Join room page (/lobby)
-│   ├── room/                # Main poker room (/room/:roomId)
+│   ├── room/                # Main poker room (/:roomId)
 │   │   ├── edit-name-modal/ # Modal for editing display name
 │   │   ├── join-modal/      # Modal for joining via link
 │   │   ├── not-found-modal/ # Room not found / connection error
@@ -179,7 +179,7 @@ src/
 |-------|-------------|
 | `/` | Landing page with features overview |
 | `/lobby` | Create or join a room |
-| `/room/:roomId` | Active poker room |
+| `/:roomId` | Active poker room |
 
 ## 🤝 Contributing
 

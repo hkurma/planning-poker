@@ -52,7 +52,7 @@ export class Lobby implements OnInit {
       const roomId = await this.room.createRoom(name.trim());
       // Save hosted room ID for potential rejoin
       localStorage.setItem(HOSTED_ROOM_KEY, roomId);
-      this.router.navigate(['/room', roomId]);
+      this.router.navigate(['/', roomId]);
     } catch (error) {
       console.error('Failed to create room:', error);
     } finally {
@@ -69,7 +69,7 @@ export class Lobby implements OnInit {
     this.isLoading.set(true);
     try {
       await this.room.joinRoom(roomId.trim(), name.trim());
-      this.router.navigate(['/room', roomId.trim()]);
+      this.router.navigate(['/', roomId.trim()]);
     } catch (error) {
       console.error('Failed to join room:', error);
     } finally {
