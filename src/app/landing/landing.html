@@ -1,0 +1,196 @@
+<div class="w-full max-w-5xl mx-auto px-4 animate-fadeIn">
+  <!-- Hero Section -->
+  <div class="text-center pt-8 pb-16">
+    <app-logo size="full" />
+
+    <p class="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mt-6 mb-2 max-w-2xl mx-auto">
+      Real-time planning poker for agile teams.
+    </p>
+    <p class="text-lg md:text-xl mb-8">
+      <span class="text-violet-600 dark:text-violet-400 font-semibold">No servers.</span>
+      <span class="text-cyan-600 dark:text-cyan-400 font-semibold"> No sign-up.</span>
+      <span class="text-emerald-600 dark:text-emerald-400 font-semibold"> Just estimate.</span>
+    </p>
+
+    <a routerLink="/lobby" class="inline-block">
+      <app-button size="lg"> 🚀 Get Started </app-button>
+    </a>
+    <p class="text-slate-400 dark:text-slate-500 text-xs mt-4">
+      Open source · No tracking · No data stored
+    </p>
+  </div>
+
+  <!-- Features Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+    <!-- Feature 1 -->
+    <div
+      class="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-600 transition-colors"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 flex items-center justify-center mb-4"
+      >
+        <span class="text-2xl">🔗</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Peer-to-Peer</h3>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">
+        Direct browser-to-browser communication via WebRTC. No backend server required.
+      </p>
+    </div>
+
+    <!-- Feature 2 -->
+    <div
+      class="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-cyan-300 dark:hover:border-cyan-600 transition-colors"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-violet-500/20 flex items-center justify-center mb-4"
+      >
+        <span class="text-2xl">⚡</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Instant Setup</h3>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">
+        Create a room in seconds. Share the code. Start estimating immediately.
+      </p>
+    </div>
+
+    <!-- Feature 3 -->
+    <div
+      class="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center mb-4"
+      >
+        <span class="text-2xl">🗳️</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Real-time Voting</h3>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">
+        See who has voted in real-time. Votes stay hidden until the host reveals.
+      </p>
+    </div>
+
+    <!-- Feature 4 -->
+    <div
+      class="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-amber-300 dark:hover:border-amber-600 transition-colors"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-4"
+      >
+        <span class="text-2xl">🎯</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Consensus Detection</h3>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">
+        Visual indicators show when your team reaches unanimous agreement.
+      </p>
+    </div>
+
+    <!-- Feature 5 -->
+    <div
+      class="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-pink-300 dark:hover:border-pink-600 transition-colors"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center mb-4"
+      >
+        <span class="text-2xl">🎉</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Celebration Mode</h3>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">
+        Confetti celebration when the team reaches consensus. Small joys matter!
+      </p>
+    </div>
+
+    <!-- Feature 6 -->
+    <div
+      class="p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors"
+    >
+      <div
+        class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center mb-4"
+      >
+        <span class="text-2xl">📱</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">PWA Ready</h3>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">
+        Install on any device for a native app experience. Works offline too.
+      </p>
+    </div>
+  </div>
+
+  <!-- How it Works -->
+  <div class="mb-16">
+    <h2 class="text-2xl font-bold text-center text-slate-800 dark:text-white mb-10">
+      How It Works
+    </h2>
+    <div
+      class="flex flex-col md:flex-row gap-6 md:gap-4 items-start justify-between max-w-3xl mx-auto"
+    >
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center text-center flex-1">
+        <div
+          class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-2xl font-bold text-white mb-4"
+        >
+          1
+        </div>
+        <h3 class="font-semibold text-slate-800 dark:text-white mb-1">Create a Room</h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          Enter your name and create a new session
+        </p>
+      </div>
+
+      <!-- Arrow -->
+      <div class="hidden md:flex h-16 items-center text-slate-300 dark:text-slate-600 text-2xl">
+        →
+      </div>
+      <div class="md:hidden text-slate-300 dark:text-slate-600 text-2xl self-center">↓</div>
+
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center text-center flex-1">
+        <div
+          class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center text-2xl font-bold text-white mb-4"
+        >
+          2
+        </div>
+        <h3 class="font-semibold text-slate-800 dark:text-white mb-1">Share the Code</h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          Send the room code to your teammates
+        </p>
+      </div>
+
+      <!-- Arrow -->
+      <div class="hidden md:flex h-16 items-center text-slate-300 dark:text-slate-600 text-2xl">
+        →
+      </div>
+      <div class="md:hidden text-slate-300 dark:text-slate-600 text-2xl self-center">↓</div>
+
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center text-center flex-1">
+        <div
+          class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-2xl font-bold text-white mb-4"
+        >
+          3
+        </div>
+        <h3 class="font-semibold text-slate-800 dark:text-white mb-1">Start Estimating</h3>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">Vote, reveal, discuss, and iterate</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="text-center pb-16">
+    <div
+      class="inline-block p-8 rounded-3xl bg-gradient-to-br from-violet-500/10 to-cyan-500/10 border border-violet-200 dark:border-violet-800"
+    >
+      <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-3">Ready to estimate?</h2>
+      <p class="text-slate-600 dark:text-slate-400 mb-6">
+        Start your planning poker session in seconds.
+      </p>
+      <a routerLink="/lobby" class="inline-block">
+        <app-button size="lg"> Create Your First Room → </app-button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 border-t border-slate-200 dark:border-slate-800">
+    <p class="text-slate-500 dark:text-slate-400 text-sm">
+      Built with ❤️ for agile teams everywhere
+    </p>
+  </footer>
+</div>

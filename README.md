@@ -59,6 +59,11 @@ Open your browser and navigate to `http://localhost:4200/`
 
 ## 📖 How to Use
 
+### Getting Started
+
+1. Visit the landing page and click **Get Started**
+2. Enter your name in the lobby
+
 ### Creating a Room
 
 1. Enter your name in the lobby
@@ -70,6 +75,8 @@ Open your browser and navigate to `http://localhost:4200/`
 1. Enter your name
 2. Paste the room code shared with you
 3. Click **Join Room**
+
+Alternatively, you can join directly via a shared link (e.g., `https://yourapp.com/room/happy-blue-dog`).
 
 ### During Estimation
 
@@ -146,8 +153,9 @@ src/
 │   │   ├── logo/            # App logo
 │   │   ├── theme-toggle/    # Dark/light mode toggle
 │   │   └── ui/              # Button, Card, Input primitives
-│   ├── lobby/               # Home/landing page
-│   ├── room/                # Main poker room
+│   ├── landing/             # Landing page (/)
+│   ├── lobby/               # Create/Join room page (/lobby)
+│   ├── room/                # Main poker room (/room/:roomId)
 │   │   ├── edit-name-modal/ # Modal for editing display name
 │   │   ├── join-modal/      # Modal for joining via link
 │   │   ├── not-found-modal/ # Room not found / connection error
@@ -164,6 +172,14 @@ src/
 ├── styles.css               # Global styles & Tailwind
 └── index.html               # Entry point
 ```
+
+## 🗺️ Routes
+
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page with features overview |
+| `/lobby` | Create or join a room |
+| `/room/:roomId` | Active poker room |
 
 ## 🤝 Contributing
 

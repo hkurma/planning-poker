@@ -1,5 +1,5 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RoomService } from '../services/room.service';
 import {
   LogoComponent,
@@ -17,6 +17,7 @@ const HOSTED_ROOM_KEY = 'sprintpokr-hosted-room';
   selector: 'app-lobby',
   standalone: true,
   imports: [
+    RouterLink,
     LogoComponent,
     CardComponent,
     ButtonComponent,
@@ -51,7 +52,7 @@ export class Lobby implements OnInit {
       const roomId = await this.room.createRoom(name.trim());
       // Save hosted room ID for potential rejoin
       localStorage.setItem(HOSTED_ROOM_KEY, roomId);
-      this.router.navigate(['/', roomId]);
+      this.router.navigate(['/room', roomId]);
     } catch (error) {
       console.error('Failed to create room:', error);
     } finally {
@@ -68,7 +69,7 @@ export class Lobby implements OnInit {
     this.isLoading.set(true);
     try {
       await this.room.joinRoom(roomId.trim(), name.trim());
-      this.router.navigate(['/', roomId.trim()]);
+      this.router.navigate(['/room', roomId.trim()]);
     } catch (error) {
       console.error('Failed to join room:', error);
     } finally {

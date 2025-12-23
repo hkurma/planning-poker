@@ -129,13 +129,13 @@ export class Room implements OnInit, OnDestroy {
 
   onCancelJoin() {
     this.showJoinModal.set(false);
-    this.router.navigate(['/']);
+    this.router.navigate(['/lobby']);
   }
 
   onReturnToLobby() {
     this.showConnectionError.set(false);
     this.room.leave();
-    this.router.navigate(['/']);
+    this.router.navigate(['/lobby']);
   }
 
   async onRetry() {
@@ -168,7 +168,7 @@ export class Room implements OnInit, OnDestroy {
     // Clear hosted room when intentionally leaving
     localStorage.removeItem(HOSTED_ROOM_KEY);
     this.room.leave();
-    this.router.navigate(['/']);
+    this.router.navigate(['/lobby']);
   }
 
   onVote(value: string) {
