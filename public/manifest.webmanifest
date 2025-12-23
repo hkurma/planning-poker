@@ -1,0 +1,14 @@
+{
+  "name": "SprintPokr",
+  "short_name": "SprintPokr",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

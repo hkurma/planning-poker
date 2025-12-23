@@ -1,8 +1,8 @@
-/* Import Tailwind CSS - MUST be first */
-@import 'tailwindcss';
-
 /* Import custom fonts */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* Import Tailwind CSS - MUST be first */
+@import 'tailwindcss';
 
 /* Theme configuration */
 @theme {
@@ -68,6 +68,11 @@
     color: var(--text-primary);
     overflow-x: hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 }
 

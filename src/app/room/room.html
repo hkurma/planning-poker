@@ -1,3 +1,4 @@
+<!-- Join Modal -->
 @if (showJoinModal()) {
 <app-join-modal
   [roomId]="route.snapshot.paramMap.get('roomId')!"
@@ -5,12 +6,33 @@
   (cancelled)="onCancelJoin()"
   (joined)="onJoinRoom($event)"
 />
-} @if (room.isConnected()) {
+}
+
+<!-- Connecting Overlay -->
+@if (isLoading() && !showJoinModal()) {
+<div
+  class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
+>
+  <div
+    class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-2xl p-8 max-w-sm w-full mx-4 text-center"
+  >
+    <div
+      class="w-12 h-12 mx-auto mb-4 border-4 border-violet-200 dark:border-violet-900 border-t-violet-500 rounded-full animate-spin"
+    ></div>
+    <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-1">Connecting to Room</h2>
+    <p class="text-slate-500 dark:text-slate-400 text-sm">Please wait...</p>
+  </div>
+</div>
+}
+
+<!-- Room Content -->
+@if (room.isConnected()) {
 <div class="w-full max-w-6xl animate-fadeIn">
   <!-- Header -->
   <app-room-header
     [roomId]="room.roomId()!"
     [playerCount]="room.players().length"
+    [showCopied]="showCopiedToast()"
     (leaveRoom)="onLeaveRoom()"
     (copyRoomCode)="onCopyRoomCode()"
   />
@@ -20,6 +42,7 @@
     [players]="room.players()"
     [currentPlayerId]="room.currentPlayer()?.id ?? null"
     [isRevealed]="room.isRevealed()"
+    (editName)="showEditNameModal.set(true)"
   />
 
   <!-- Voting Cards -->
@@ -39,10 +62,18 @@
     (reset)="onReset()"
   />
 </div>
-} @if (showCopiedToast()) {
-<div
-  class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-emerald-500 rounded-full text-white font-medium shadow-lg animate-fadeIn z-50"
->
-  ✓ Room code copied!
-</div>
+}
+
+<!-- Room Not Found Modal -->
+@if (showConnectionError()) {
+<app-not-found-modal (retry)="onRetry()" (returnToLobby)="onReturnToLobby()" />
+}
+
+<!-- Edit Name Modal -->
+@if (showEditNameModal() && room.currentPlayer()) {
+<app-edit-name-modal
+  [currentName]="room.currentPlayer()!.name"
+  (saved)="onNameSaved($event)"
+  (cancelled)="showEditNameModal.set(false)"
+/>
 }

@@ -1,5 +1,5 @@
 <div
-  class="mb-10 p-6 rounded-2xl transition-all duration-500 bg-slate-100 dark:bg-slate-800/50"
+  class="mb-10 p-6 rounded-2xl transition-all duration-500 bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700"
   [class.bg-emerald-100]="consensusState() === 'consensus'"
   [class.dark:bg-emerald-900/30]="consensusState() === 'consensus'"
   [class.bg-amber-100]="consensusState() === 'no-consensus'"
@@ -10,12 +10,9 @@
       <button
         (click)="cardSelected.emit(card)"
         [disabled]="disabled()"
-        class="w-12 h-16 md:w-14 md:h-20 rounded-lg border-2 flex items-center justify-center transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-white hover:border-violet-400"
-        [class.border-violet-500]="selectedCard() === card"
-        [class.bg-violet-500]="selectedCard() === card"
-        [class.text-white]="selectedCard() === card"
-        [class.-translate-y-1]="selectedCard() === card"
-        [class.shadow-lg]="selectedCard() === card">
+        [class]="selectedCard() === card
+          ? 'w-12 h-16 md:w-14 md:h-20 rounded-lg border-2 flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-violet-500 bg-violet-500 text-white -translate-y-1'
+          : 'w-12 h-16 md:w-14 md:h-20 rounded-lg border-2 flex items-center justify-center transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed border-slate-400 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-white hover:border-violet-400'">
         <span class="text-lg md:text-xl font-bold">{{ card }}</span>
       </button>
     }

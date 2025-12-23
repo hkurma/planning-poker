@@ -14,6 +14,7 @@ export class PeerService {
   readonly peerId = signal<string | null>(null);
   readonly isConnected = signal(false);
   readonly connectionError = signal<string | null>(null);
+  readonly hostDisconnected = signal(false);
 
   onMessage(handler: MessageHandler) {
     this.messageHandler = handler;
@@ -25,7 +26,7 @@ export class PeerService {
 
       this.peer.on('open', (id) => {
         this.peerId.set(id);
-        this.isConnected.set(true);
+        // Don't set isConnected here - only set when actually connected to a room
         resolve(id);
       });
 
@@ -35,6 +36,7 @@ export class PeerService {
 
       this.peer.on('error', (err) => {
         this.connectionError.set(err.message);
+        this.isConnected.set(false);
         reject(err);
       });
     });
@@ -50,7 +52,10 @@ export class PeerService {
       const conn = this.peer.connect(hostId, { reliable: true });
 
       conn.on('open', () => {
+        clearTimeout(timeout);
         this.connections.set(hostId, conn);
+        this.setupHostConnectionMonitoring(conn);
+        this.isConnected.set(true);
         resolve(conn);
       });
 
@@ -59,22 +64,49 @@ export class PeerService {
       });
 
       conn.on('close', () => {
-        this.connections.delete(hostId);
-        this.isConnected.set(false);
-        this.connectionError.set('Disconnected from room');
+        this.handleHostDisconnect(hostId);
       });
 
       conn.on('error', (err) => {
+        clearTimeout(timeout);
         this.connectionError.set(err.message);
+        this.isConnected.set(false);
         reject(err);
       });
 
-      setTimeout(() => {
+      // Timeout for connection - reject if host doesn't respond
+      const timeout = setTimeout(() => {
         if (!conn.open) {
-          reject(new Error('Connection timeout'));
+          conn.close();
+          this.isConnected.set(false);
+          reject(new Error('Room not found or host unavailable'));
         }
-      }, 10000);
+      }, 5000);
     });
+  }
+
+  private setupHostConnectionMonitoring(conn: DataConnection) {
+    // Access the underlying RTCPeerConnection to monitor ICE state
+    const peerConnection = (conn as any).peerConnection as RTCPeerConnection;
+    if (peerConnection) {
+      peerConnection.oniceconnectionstatechange = () => {
+        const state = peerConnection.iceConnectionState;
+        if (state === 'disconnected' || state === 'failed' || state === 'closed') {
+          this.handleHostDisconnect(conn.peer);
+        }
+      };
+    }
+  }
+
+  private handleHostDisconnect(hostId: string) {
+    if (this.hostDisconnected()) return; // Prevent multiple triggers
+    this.connections.delete(hostId);
+    this.isConnected.set(false);
+    this.hostDisconnected.set(true);
+  }
+
+  setConnected(value: boolean) {
+    this.isConnected.set(value);
   }
 
   send(conn: DataConnection, type: string, payload: any) {
@@ -97,11 +129,24 @@ export class PeerService {
     this.peerId.set(null);
     this.isConnected.set(false);
     this.connectionError.set(null);
+    this.hostDisconnected.set(false);
+  }
+
+  resetForReconnect() {
+    this.connections.forEach((conn) => conn.close());
+    this.connections.clear();
+    this.peer?.destroy();
+    this.peer = null;
+    this.peerId.set(null);
+    this.isConnected.set(false);
+    this.connectionError.set(null);
+    this.hostDisconnected.set(false);
   }
 
   private setupConnection(conn: DataConnection) {
     conn.on('open', () => {
       this.connections.set(conn.peer, conn);
+      this.setupGuestConnectionMonitoring(conn);
     });
 
     conn.on('data', (data: any) => {
@@ -109,8 +154,25 @@ export class PeerService {
     });
 
     conn.on('close', () => {
-      this.connections.delete(conn.peer);
-      this.messageHandler?.('player-left', conn.peer);
+      this.handleGuestDisconnect(conn.peer);
     });
+  }
+
+  private setupGuestConnectionMonitoring(conn: DataConnection) {
+    const peerConnection = (conn as any).peerConnection as RTCPeerConnection;
+    if (peerConnection) {
+      peerConnection.oniceconnectionstatechange = () => {
+        const state = peerConnection.iceConnectionState;
+        if (state === 'disconnected' || state === 'failed' || state === 'closed') {
+          this.handleGuestDisconnect(conn.peer);
+        }
+      };
+    }
+  }
+
+  private handleGuestDisconnect(peerId: string) {
+    if (!this.connections.has(peerId)) return; // Already handled
+    this.connections.delete(peerId);
+    this.messageHandler?.('player-left', peerId);
   }
 }

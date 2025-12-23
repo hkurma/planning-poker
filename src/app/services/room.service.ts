@@ -26,6 +26,7 @@ export class RoomService {
   // Expose connection state from PeerService
   readonly isConnected = this.peer.isConnected;
   readonly connectionError = this.peer.connectionError;
+  readonly hostDisconnected = this.peer.hostDisconnected;
 
   // Computed
   readonly allVoted = computed(() => {
@@ -39,6 +40,14 @@ export class RoomService {
 
   async createRoom(playerName: string): Promise<string> {
     const roomId = generateRoomId();
+    return this.initializeAsHost(roomId, playerName);
+  }
+
+  async rejoinAsHost(roomId: string, playerName: string): Promise<string> {
+    return this.initializeAsHost(roomId, playerName);
+  }
+
+  private async initializeAsHost(roomId: string, playerName: string): Promise<string> {
     await this.peer.initialize(roomId);
 
     const player: Player = {
@@ -52,6 +61,7 @@ export class RoomService {
     this.isHost.set(true);
     this.currentPlayer.set(player);
     this.players.set([player]);
+    this.peer.setConnected(true); // Host is connected once room is created
 
     return roomId;
   }
@@ -83,6 +93,15 @@ export class RoomService {
     this.peer.broadcast('vote', { playerId: current.id, vote: value });
   }
 
+  updateName(newName: string) {
+    const current = this.currentPlayer();
+    if (!current || !newName.trim()) return;
+
+    const trimmedName = newName.trim();
+    this.updatePlayerName(current.id, trimmedName);
+    this.peer.broadcast('name-change', { playerId: current.id, name: trimmedName });
+  }
+
   reveal() {
     this.isRevealed.set(true);
     this.peer.broadcast('reveal', null);
@@ -96,6 +115,13 @@ export class RoomService {
   leave() {
     this.peer.disconnect();
     this.resetState();
+  }
+
+  prepareForReconnect() {
+    this.peer.resetForReconnect();
+    this.isRevealed.set(false);
+    this.players.set([]);
+    this.currentPlayer.set(null);
   }
 
   // Message handling
@@ -117,7 +143,10 @@ export class RoomService {
         this.syncState(payload.players, payload.isRevealed);
         break;
       case 'player-left':
-        this.removePlayer(payload);
+        this.handlePlayerLeft(payload);
+        break;
+      case 'name-change':
+        this.updatePlayerName(payload.playerId, payload.name);
         break;
     }
   }
@@ -152,12 +181,29 @@ export class RoomService {
     this.players.set(this.players().filter((p) => p.id !== playerId));
   }
 
+  private handlePlayerLeft(playerId: string) {
+    this.removePlayer(playerId);
+    // If we're the host, broadcast to other guests
+    if (this.isHost()) {
+      this.peer.broadcast('player-left', playerId);
+    }
+  }
+
   private updatePlayerVote(playerId: string, vote: string) {
     this.players.set(this.players().map((p) => (p.id === playerId ? { ...p, vote } : p)));
 
     const current = this.currentPlayer();
     if (current?.id === playerId) {
       this.currentPlayer.set({ ...current, vote });
+    }
+  }
+
+  private updatePlayerName(playerId: string, name: string) {
+    this.players.set(this.players().map((p) => (p.id === playerId ? { ...p, name } : p)));
+
+    const current = this.currentPlayer();
+    if (current?.id === playerId) {
+      this.currentPlayer.set({ ...current, name });
     }
   }
 
@@ -198,4 +244,3 @@ export class RoomService {
     this.currentPlayer.set(null);
   }
 }
-

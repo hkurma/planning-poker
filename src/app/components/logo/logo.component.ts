@@ -17,8 +17,8 @@ import { Component, input } from '@angular/core';
         </div>
         <div class="text-left">
           <h1 class="text-4xl font-black tracking-tight">
-            <span class="bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 bg-clip-text text-transparent">POINT</span>
-            <span class="text-slate-800 dark:text-white/90">STORM</span>
+            <span class="bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 bg-clip-text text-transparent">SPRINT</span>
+            <span class="text-slate-800 dark:text-white/90">POKR</span>
           </h1>
           <p class="text-xs text-slate-500 dark:text-white/40 tracking-[0.3em] uppercase">Peer-to-Peer Planning Poker</p>
         </div>
@@ -26,7 +26,7 @@ import { Component, input } from '@angular/core';
     </div>
     } @else {
     <h2 class="text-xl font-bold text-slate-800 dark:text-white">
-      <span class="bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent">POINT</span>STORM
+      <span class="bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent">SPRINT</span>POKR
     </h2>
     }
   `,

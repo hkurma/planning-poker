@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoomService } from '../services/room.service';
 import {
@@ -9,6 +9,9 @@ import {
   IconPlusComponent,
   IconArrowRightComponent,
 } from '../components';
+
+const STORAGE_KEY = 'sprintpokr-username';
+const HOSTED_ROOM_KEY = 'sprintpokr-hosted-room';
 
 @Component({
   selector: 'app-lobby',
@@ -23,7 +26,7 @@ import {
   ],
   templateUrl: './lobby.html',
 })
-export class Lobby {
+export class Lobby implements OnInit {
   protected readonly room = inject(RoomService);
   private readonly router = inject(Router);
 
@@ -31,13 +34,23 @@ export class Lobby {
   readonly roomCode = signal('');
   readonly isLoading = signal(false);
 
+  ngOnInit() {
+    const savedName = localStorage.getItem(STORAGE_KEY);
+    if (savedName) {
+      this.playerName.set(savedName);
+    }
+  }
+
   async onCreateRoom() {
     const name = this.playerName();
     if (!name.trim()) return;
 
+    this.saveName(name.trim());
     this.isLoading.set(true);
     try {
       const roomId = await this.room.createRoom(name.trim());
+      // Save hosted room ID for potential rejoin
+      localStorage.setItem(HOSTED_ROOM_KEY, roomId);
       this.router.navigate(['/', roomId]);
     } catch (error) {
       console.error('Failed to create room:', error);
@@ -51,6 +64,7 @@ export class Lobby {
     const roomId = this.roomCode();
     if (!name.trim() || !roomId.trim()) return;
 
+    this.saveName(name.trim());
     this.isLoading.set(true);
     try {
       await this.room.joinRoom(roomId.trim(), name.trim());
@@ -60,5 +74,9 @@ export class Lobby {
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  private saveName(name: string) {
+    localStorage.setItem(STORAGE_KEY, name);
   }
 }
